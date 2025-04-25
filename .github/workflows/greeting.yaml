@@ -2,7 +2,7 @@ name: printsome
 on: push
 jobs:
     greet:
-        runs-on: ubntu-latest
+        runs-on: ubuntu-latest
         steps:
             - name: greethello
               run: echo "user greeted hello"
