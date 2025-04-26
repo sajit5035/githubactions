@@ -1,0 +1,12 @@
+name: run test case
+on: [push, workflow_dispatch]
+jobs:
+    runtest:
+        runs-on: ubuntu-latest
+        steps:
+            - name: get code
+              run : |
+                echo "cloning repo"
+                echo "${{toJson(github)}}"
+                git clone https://github.com/sajit5035/${{github.repository}}.git
+
