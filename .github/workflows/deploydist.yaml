@@ -59,7 +59,7 @@ jobs:
         - name : upload build file artifact
           uses : actions/upload-artifact@v4
           with :
-            name : dist-files
+            name : Build
             path : dist
     deploy:
         needs: build
@@ -68,7 +68,7 @@ jobs:
             - name : download build file artifact
               uses : actions/download-artifact@v4
               with :
-                name : dist-files
+                name : Build
                 path : dist
             - name : build project
               run : echo "build success"
