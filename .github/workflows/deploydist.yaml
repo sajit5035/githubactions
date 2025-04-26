@@ -19,5 +19,7 @@ jobs:
               run : node -v
             - name: install dependency
               run : npm ci
+            - name : run all test
+              run: npm run test
             - name : print text
               run : echo "aj don"
