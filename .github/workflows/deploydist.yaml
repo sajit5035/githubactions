@@ -17,6 +17,11 @@ jobs:
                 node-version: 20
             - name: print node version
               run : node -v
+            - name : cache dependency
+              uses : actions/cache@v4
+              with:
+                path : ~/.npm
+                key : ${{runner.os}}-node-${{hashFiles('**/package-lock.json')}}
             - name: install dependency
               run : npm ci
             - name : run all test
@@ -33,6 +38,11 @@ jobs:
               uses : actions/setup-node@v4
               with:
                 node-version: 20
+            - name : cache dependency
+              uses : actions/cache@v4
+              with:
+                path : ~/.npm
+                key : ${{runner.os}}-node-${{hashFiles('**/package-lock.json')}}
             - name : insall packages
               run : npm ci
             - name : build project
