@@ -23,3 +23,16 @@ jobs:
               run: npm run test
             - name : print text
               run : echo "aj don"
+    deploy:
+        runs-on : ubuntu-latest
+        steps:
+            - name : all code
+              uses : actions/checkout@v4
+            - name : install node
+              uses : actions/setup-node@v4
+              with:
+                node-version: 20
+            - name : insall packages
+              run : npm ci
+            - name : build project
+              run : echo "build success"
