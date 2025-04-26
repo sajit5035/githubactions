@@ -6,7 +6,7 @@ const App = () => {
     <div>
       <h1>This is react app for github action bb</h1>
       <h1>this is added</h1>
-      <h1>now i can deploy ccxcc</h1>
+      <h1>now i can deploy ccxcc bb</h1>
     </div>
   )
 }
