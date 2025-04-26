@@ -1,0 +1,72 @@
+name: run test case
+on:
+  push:
+    # branches:
+    #   - main
+    #   - 'feature/**'
+    # paths-ignore:
+    #   - '.github/workflows/*'
+    #   - README.md
+  workflow_dispatch:
+jobs:
+    runtest:
+        runs-on: ubuntu-latest
+        steps:
+            - name: get code
+              uses: actions/checkout@v4
+            - name: install node
+              uses: actions/setup-node@v4
+              with:
+                node-version: 20
+            - name: print node version
+              run : node -v
+            - name : cache dependency
+              uses : actions/cache@v4
+              with:
+                path : ~/.npm
+                key : ${{runner.os}}-node-${{hashFiles('**/package-lock.json')}}
+            - name: install dependency
+              run : npm ci
+            - name : run all test
+              run: npm run test
+            - name : print text
+              run : echo "aj don"
+    build:
+      needs: runtest
+      runs-on : ubuntu-latest
+      steps:
+        - name : all code
+          uses : actions/checkout@v4
+        - name : install node
+          uses : actions/setup-node@v4
+          with :
+            node-version : 20
+        - name : cache dependency
+          uses : actions/cache@v4
+          with:
+            path : ~/.npm
+            key : ${{runner.os}}-node-${{hashFiles('**/package-lock.json')}}
+        - name : insall packages
+          run : npm ci
+        - name : build file
+          run : npm run build
+        - name : upload build file artifact
+          uses : actions/upload-pages-artifact@v3
+          with :
+            name : github-pages
+            path : build
+    deploy:
+        needs: build
+        runs-on : ubuntu-latest
+        permissions:
+            pages: write      
+            id-token: write   
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4 
+              with :
+                token : ${{secrets.GITHUB_TOKEN}}
