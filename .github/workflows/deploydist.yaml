@@ -37,22 +37,38 @@ jobs:
               run: npm run test
             - name : print text
               run : echo "aj don"
+    build:
+      needs: runtest
+      runs-on : ubuntu-latest
+      steps:
+        - name : all code
+          uses : actions/checkout@v4
+        - name : install node
+          uses : actions/setup-node@v4
+          with :
+            node-version : 20
+        - name : cache dependency
+          uses : actions/cache@v4
+          with:
+            path : ~/.npm
+            key : ${{runner.os}}-node-${{hashFiles('**/package-lock.json')}}
+        - name : insall packages
+          run : npm ci
+        - name : build file
+          run : npm run build
+        - name : upload build file artifact
+          uses : actions/upload-artifact@v4
+          with :
+            name : distFile
+            path : dist
     deploy:
-        needs: runtest
+        needs: build
         runs-on : ubuntu-latest
         steps:
-            - name : all code
-              uses : actions/checkout@v4
-            - name : install node
-              uses : actions/setup-node@v4
-              with:
-                node-version: 20
-            - name : cache dependency
-              uses : actions/cache@v4
-              with:
-                path : ~/.npm
-                key : ${{runner.os}}-node-${{hashFiles('**/package-lock.json')}}
-            - name : insall packages
-              run : npm ci
+            - name : download build file artifact
+              uses : actions/download-artifact@v4
+              with :
+                name : distFile
+                path : dist
             - name : build project
               run : echo "build success"
