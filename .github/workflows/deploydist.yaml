@@ -24,6 +24,7 @@ jobs:
             - name : print text
               run : echo "aj don"
     deploy:
+        needs: runtest
         runs-on : ubuntu-latest
         steps:
             - name : all code
