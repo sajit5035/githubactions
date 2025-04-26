@@ -69,6 +69,6 @@ jobs:
               uses : actions/download-artifact@v4
               with :
                 name : distFile
-                path : dist
+                path : ./dist
             - name : build project
               run : echo "build success"
