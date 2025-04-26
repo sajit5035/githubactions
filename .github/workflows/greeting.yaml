@@ -1,4 +1,4 @@
-name: printsome
+name: print some
 on: push
 jobs:
     greet:
